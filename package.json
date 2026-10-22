@@ -1,0 +1,28 @@
+{
+  "name": "awemcp-blogger",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Private Blogger MCP server for blogma-wa.blogspot.com using Google OAuth and Blogger API v3",
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "express": "^5.1.0",
+    "googleapis": "^150.0.1",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.15.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  }
+}
