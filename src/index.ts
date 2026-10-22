@@ -96,7 +96,6 @@ app.get("/auth/google", (_req, res) => {
 });
 app.get("/oauth2callback", async (req, res) => {
   try {
-    const expected = String(req.cookies?.awemcp_oauth_state ?? "");
     const state = String(req.query.state ?? "");
     // Parse the state cookie without requiring a cookie middleware dependency.
     const cookieHeader = req.headers.cookie ?? "";
@@ -175,9 +174,10 @@ function buildMcpServer() {
       const auth = await getAuthorizedClient(); const blogger = google.blogger({ version: "v3", auth }); const blogId = await getBlogId();
       const current = (await blogger.posts.get({ blogId, postId })).data;
       const body = { title: title ?? current.title, content: content ?? current.content, labels: labels ?? current.labels };
+      const updated = await blogger.posts.update({ blogId, postId, requestBody: body });
       const result = publish
         ? await blogger.posts.publish({ blogId, postId })
-        : await blogger.posts.update({ blogId, postId, requestBody: body });
+        : { data: updated.data };
       return { content: [{ type: "text", text: JSON.stringify({ updated: true, post: result.data }, null, 2) }] };
     } catch (e) { return { isError: true, content: [{ type: "text", text: safeError(e) }] }; }
   });
